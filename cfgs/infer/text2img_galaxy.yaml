@@ -1,0 +1,52 @@
+ 
+_base_: [cfgs/infer/text2img.yaml]
+
+pretrained_model: 'runwayml/stable-diffusion-v1-5'  # base model
+prompt: 'galaxy'
+neg_prompt: ''
+N_repeats: 1  # if prompt or neg_prompt is too long, increase this number
+
+bs: 4
+num: 1
+output_dir: 'output/'
+
+clip_skip: 0
+
+infer_args:
+  width: 512
+  height: 512  # image size
+  guidance_scale: 7.5  # scale, when higher, the images will tend to be more similar
+  num_inference_steps: 30  # how many steps
+
+new_components:
+  scheduler:
+    _target_: diffusers.EulerAncestralDiscreteScheduler # change Sampler
+    beta_start: 0.00085
+    beta_end: 0.012
+    beta_schedule: 'scaled_linear'
+
+merge:
+  alpha: 0.85 # lora weight, default: 0.85
+
+  group1:
+    type: 'unet'
+    base_model_alpha: 1.0 # base model weight to merge with lora or part
+    lora:
+      - path: '${.....exp_dir}/ckpts/unet-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+    part: null
+
+  group2:
+    type: 'TE'
+    base_model_alpha: 1.0 # base model weight to merge with lora or part
+    lora:
+      - path: '${.....exp_dir}/ckpts/text_encoder-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+    part: null
+
+interface:
+  - _target_: hcpdiff.vis.DiskInterface
+    show_steps: 0
+    save_root: '${output_dir}'

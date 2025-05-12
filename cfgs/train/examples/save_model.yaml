@@ -1,0 +1,25 @@
+_base_: [cfgs/infer/text2img.yaml]
+
+pretrained_model: 'runwayml/stable-diffusion-v1-5'  # pretrained basic model
+
+save_model:
+  path: ${exp_dir}/final.ckpt
+  to_safetensors: true
+
+merge:
+  alpha: 1.0 # weight of new model
+
+  group1:
+    type: 'unet'
+    base_model_alpha: 0 # base model weight to merge with lora or part
+    part:
+      - path: '${.....exp_dir}/ckpts/unet-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+  group2:
+    type: 'TE'
+    base_model_alpha: 0 # base model weight to merge with lora or part
+    part:
+      - path: '${.....exp_dir}/ckpts/text_encoder-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'

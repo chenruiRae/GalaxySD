@@ -1,0 +1,55 @@
+# It is a modified version. If you need the original .yaml file, please go to Github to download it.
+
+pretrained_model: 'stabilityai/stable-diffusion-xl-base-1.0' # pre-training base model
+prompt: 'dust lane galaxy'
+neg_prompt: '' # negative text can exclude unwanted features.
+out_dir: 'output/' # output folder
+emb_dir: 'embs/' # embedding folder
+N_repeat: 1 # extended multiple of sentence length
+clip_skip: 1
+bs: 4 # batch_size
+num: 1 # total number of images = bs * num
+seed: null # random seed, if not set, will be random
+fp16: True # half-precision reasoning is faster and has less graphics memory.
+
+dtype: "amp"
+clip_final_norm: True
+
+condition: null # img2img and contorlnet
+
+save:
+  save_cfg: True # whether to store configuration files together
+  image_type: jpg # store image format
+  quality: 95 # storage image compression quality
+
+infer_args:
+  width: 424 
+  height: 424 
+  guidance_scale: 7.5 # CFG scale
+
+new_components: {} # replace the components of the model - Sampler, VAE, etc.
+
+merge:
+  # exp_dir: '2024-08-29-20-10-44'
+  # model_steps: 1000
+  alpha: 1.0
+  
+  group1: # multiple groups can be loaded at the same time, with different configuration parameters.
+    type: 'unet'
+    base_model_alpha: 0.0 # replace the layer of the basic model
+    part: 
+      - path: '${.....exp_dir}/ckpts/unet-${.....model_steps}.safetensors'
+        alpha: 1.0 # replace the layer of the basic model
+        layers: 'all'
+  group2:
+    type: 'TE'
+    base_model_alpha: 0 # base model weight to merge with lora or part
+    part:
+      - path: '${.....exp_dir}/ckpts/text_encoder-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+
+interface:
+  - _target_: hcpdiff.vis.DiskInterface
+    show_steps: 0
+    save_root: '${output_dir}'

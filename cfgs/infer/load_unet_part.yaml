@@ -1,0 +1,10 @@
+_base_: [cfgs/infer/text2img.yaml]
+
+merge:
+  group1:
+    type: 'unet'
+    base_model_alpha: 0.0
+    part:
+      - path: 'exps/2024-08-29-20-10-44/ckpt/unet-1000.safetensors'
+        alpha: 1.0
+        layers: 'all'

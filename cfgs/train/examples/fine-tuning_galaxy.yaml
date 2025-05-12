@@ -1,0 +1,62 @@
+_base_:
+  - cfgs/train/dataset/base_dataset.yaml
+  - cfgs/train/train_base.yaml
+  - cfgs/train/tuning_base.yaml
+
+train:
+  save_step: 1000
+  train_steps: 10000
+
+  scheduler:
+    name: "one_cycle"
+    num_warmup_steps: 400  
+    num_training_steps: ${train.train_steps}
+    scheduler_kwargs: {} # args for scheduler
+
+model:
+  pretrained_model_name_or_path: "./.cache/modelscope/hub/ai-modelscope/stable-diffusion-v1-5/" # pretrained model path
+  tokenizer_repeats: 1
+  ema_unet: 1
+  ema_text_encoder: 1
+
+# resume: # Continue the previous training, or start a new training by set it to null
+#     ckpt_path: 
+#       unet: "exps/2024-09-18-13-03-47/ckpts/text_encoder-50000.safetensors" # All checkpoint path of unet
+#       TE: "exps/2024-09-18-13-03-47/ckpts/unet-50000.safetensors" # All checkpoint path of text-encoder
+#       words: {} # All checkpoint path of custom words
+#     start_step: 507400 # Steps at the end of the previous training
+
+unet:
+  - lr: 1e-7
+    layers:
+      - "" # fine-tuning all layers in unet
+
+## fine-tuning text-encoder
+text_encoder:
+  - lr: 1e-7
+    layers:
+      - ""
+
+data_cfg:
+  batch_size: 16
+  img_root: "../galaxyzoo/gz2/images_well-sampled_balanced_shuffled+dustlane"  # dataset img path
+  caption_file: "../galaxyzoo/gz2/tags_well-sampled_balanced_shuffled+dustlane" # anotation or cpation path
+  target_area: 424*424 # expected resolution
+
+# The dataset configuration inherits base_dataset.yaml
+data:
+  dataset1:
+    batch_size: ${data_cfg.batch_size}
+    cache_latents: True
+    # cache_path: ""
+
+    source:
+      data_source1:
+        img_root: ${data_cfg.img_root}
+        prompt_template: "prompt_tuning_template/galaxy.txt"
+        caption_file: ${data_cfg.caption_file}
+
+    bucket:
+      _target_: hcpdiff.data.bucket.SizeBucket.from_files # aspect ratio bucket
+      target_area: ---
+      num_bucket: 1

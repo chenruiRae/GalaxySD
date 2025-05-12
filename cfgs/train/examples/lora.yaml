@@ -1,0 +1,65 @@
+_base_:
+  - cfgs/train/dataset/base_dataset.yaml
+  - cfgs/train/train_base.yaml
+  - cfgs/train/tuning_base.yaml
+
+
+# you can modify the following parameters
+
+train:
+  save_step: 1000
+  train_steps: 50740
+
+  scheduler:
+    name: 'one_cycle'
+    num_warmup_steps: 2000
+    num_training_steps: 50740
+    scheduler_kwargs: {} # args for scheduler
+
+model:
+  pretrained_model_name_or_path: 'runwayml/stable-diffusion-v1-5'
+  lr_unet: 1e-4
+  lr_text_encoder: 1e-6
+  lora_rank: 256
+
+data_cfg:
+  batch_size: 16
+  img_root: 'data/desi_gz_enc1/' # dataset path
+  caption_file: 'data/desi_gz_tags_ext0/' # caption file path
+  target_area: 512*512 # expected resolution
+
+# object_name: pt-cat1 # the name of the object trained by lora (trigger word)
+
+# leave the following part fixed
+
+lora_unet:
+  -
+    lr: ${model.lr_unet}
+    rank: ${model.lora_rank}
+    layers:
+      - 're:.*\.attn.?$'
+      - 're:.*\.ff$'
+
+lora_text_encoder:
+  - lr: ${model.lr_text_encoder}
+    rank: ${model.lora_rank}
+    layers:
+      - 're:.*self_attn$'
+      - 're:.*mlp$'
+
+data:
+  dataset1:
+    batch_size: ${data_cfg.batch_size}
+    cache_latents: True
+    cache_path: 'cache/desi_gz_enc1.cache'
+
+    source:
+      data_source1:
+        img_root: ${data_cfg.img_root}
+        prompt_template: 'prompt_tuning_template/galaxy.txt'
+        caption_file: ${data_cfg.caption_file}
+
+    bucket:
+      _target_: hcpdiff.data.bucket.SizeBucket.from_files # aspect ratio bucket
+      target_area: ---
+      num_bucket: 1

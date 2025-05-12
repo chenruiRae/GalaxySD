@@ -1,0 +1,55 @@
+ 
+_base_: [cfgs/infer/text2img.yaml]
+
+pretrained_model: "./.cache/modelscope/hub/ai-modelscope/stable-diffusion-v1-5/"  # base model path in your local or name in huggingface
+prompt: 'galaxy'
+neg_prompt: ''
+N_repeats: 1  # if prompt or neg_prompt is too long, increase this number
+
+bs: 4
+num: 1
+output_dir: 'output/'
+
+clip_skip: 0 # Animation models usually skip a CLIP layer.
+
+condition:
+  type: i2i
+  image: '../galaxyzoo/gz2/images/152242.jpg' # control image path
+  
+infer_args:
+  width: 424
+  height: 424  # image size
+  guidance_scale: 6.5  # scale, when higher, the images will tend to be more similar
+  num_inference_steps: 40 
+  strength: 1.0
+
+new_components:
+  scheduler:
+    _target_: diffusers.EulerAncestralDiscreteScheduler # change Sampler
+    beta_start: 0.00085
+    beta_end: 0.012
+    beta_schedule: 'scaled_linear'
+
+merge:
+  alpha: 1 # weight of the new model
+
+  group1:
+    type: 'unet'
+    base_model_alpha: 0 # base model weight to merge with lora or part
+    part:
+      - path: '${.....exp_dir}/ckpts/unet-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+  group2:
+    type: 'TE'
+    base_model_alpha: 0 # base model weight to merge with lora or part
+    part:
+      - path: '${.....exp_dir}/ckpts/text_encoder-${.....model_steps}.safetensors'
+        alpha: ${....alpha}
+        layers: 'all'
+
+
+interface:
+  - _target_: hcpdiff.vis.DiskInterface
+    show_steps: 0
+    save_root: '${output_dir}'
