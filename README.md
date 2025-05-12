@@ -3,6 +3,9 @@ We fine-tuned sd-1.5 specialized for galaxy image generation by galaxy images wi
 
 ### Arcitecture
 
+Schematic diagram of our model and downstream tasks in our paper.
+
+![schema](schema.png)
 
 ### Git and create environment
 
