@@ -45,5 +45,5 @@ Fill model name and steps and give prompts in `infer_script_full.sh`.
 ```
 bash ./infer_script_full.sh
 ```
-If you wanna view a summary of generation, 
+If you wanna view a summary of generation, uncomment the last line of `infer_script_full.sh` and keep the prompts in `create_summary.py` consistent with those in inference script.
 
