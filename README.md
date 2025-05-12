@@ -1,4 +1,8 @@
 # GalaxySD
+We fine-tuned sd-1.5 specialized for galaxy image generation by galaxy images with annoted morphological description based on [GZ2](https://arxiv.org/abs/1308.3496v2). The galaxy morphological description dataset in natural language insteal of vote fractions will release soon. 
+
+### Arcitecture
+
 
 ### Git and create environment
 
@@ -12,11 +16,11 @@ conda create -n galaxysd
 conda activate galaxysd
 pip install -r requirements.txt
 ```
-Now you have set up the workspace and could fine-tune a GalaxySD model. The fine-tuning tool we used is [HCP-Diffusion](https://github.com/IrisRainbowNeko/HCP-Diffusion).
+Now you have set up the workspace and could fine-tune a GalaxySD model. 
 
 ### Customize configurations
 
-For example, full fine-tuning training configurations are in `GalaxySD/cfgs/train/examples/fine-tuning_galaxy.yaml`. You could customize it before using. The parameters that must be modified to ensure the pipeline run well and corresponding descriptions in `fine-tuning_galaxy.yaml` are in the following table.
+For example, full fine-tuning training configurations are in `GalaxySD/cfgs/train/examples/fine-tuning_galaxy.yaml`. You could customize it before using. The parameters that must be modified to ensure the pipeline run well and corresponding descriptions in `fine-tuning_galaxy.yaml` are in the following table. The fine-tuning tool we used is [HCP-Diffusion](https://github.com/IrisRainbowNeko/HCP-Diffusion).
 
 | Training Parameter             | Description                                | Example                   |
 |--------------------|-------------------------------------|--------------------------|
