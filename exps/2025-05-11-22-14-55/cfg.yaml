@@ -1,0 +1,112 @@
+tokenizer_pt:
+  emb_dir: embs/
+  replace: false
+  train: []
+unet:
+- lr: 1.0e-07
+  layers:
+  - ''
+lora_unet: null
+text_encoder:
+- lr: 1.0e-07
+  layers:
+  - ''
+lora_text_encoder: null
+plugin_unet: null
+plugin_TE: null
+exp_dir: exps/${hcp.time:}
+mixed_precision: fp16
+allow_tf32: false
+seed: 114514
+ckpt_type: safetensors
+vis_info:
+  prompt: null
+  negative_prompt: ''
+train:
+  train_steps: 10000
+  train_epochs: null
+  gradient_accumulation_steps: 1
+  workers: 4
+  max_grad_norm: 1.0
+  set_grads_to_none: false
+  save_step: 1000
+  cfg_scale: '1.0'
+  resume: null
+  loss:
+    criterion:
+      _target_: torch.nn.MSELoss
+      _partial_: true
+      reduction: none
+    type: eps
+  optimizer:
+    _target_: torch.optim.AdamW
+    _partial_: true
+    weight_decay: 0.001
+  optimizer_pt:
+    _target_: torch.optim.AdamW
+    _partial_: true
+    weight_decay: 0.0005
+  scale_lr: true
+  scheduler:
+    name: one_cycle
+    num_warmup_steps: 400
+    num_training_steps: ${train.train_steps}
+    scheduler_kwargs: {}
+  scale_lr_pt: true
+  scheduler_pt: ${.scheduler}
+logger:
+- _target_: hcpdiff.loggers.CLILogger
+  _partial_: true
+  out_path: train.log
+  log_step: 20
+model:
+  revision: null
+  pretrained_model_name_or_path: ./.cache/modelscope/hub/ai-modelscope/stable-diffusion-v1-5/
+  tokenizer_repeats: 1
+  enable_xformers: true
+  gradient_checkpointing: true
+  force_cast_precision: false
+  ema: null
+  clip_skip: 0
+  clip_final_norm: true
+  tokenizer: null
+  noise_scheduler: null
+  unet: null
+  text_encoder: null
+  vae: null
+  ema_unet: 1
+  ema_text_encoder: 1
+previewer: null
+data:
+  dataset1:
+    _target_: hcpdiff.data.TextImagePairDataset
+    _partial_: true
+    batch_size: ${data_cfg.batch_size}
+    cache_latents: true
+    att_mask_encode: false
+    loss_weight: 1.0
+    source:
+      data_source1:
+        _target_: hcpdiff.data.source.Text2ImageAttMapSource
+        img_root: ${data_cfg.img_root}
+        prompt_template: prompt_tuning_template/galaxy.txt
+        caption_file: ${data_cfg.caption_file}
+        att_mask: null
+        bg_color:
+        - 255
+        - 255
+        - 255
+        word_names: {}
+        text_transforms:
+          _target_: torchvision.transforms.Compose
+          transforms:
+          - _target_: hcpdiff.utils.caption_tools.TemplateFill
+            word_names: ${....word_names}
+    bucket:
+      _target_: hcpdiff.data.bucket.SizeBucket.from_files
+      num_bucket: 1
+data_cfg:
+  batch_size: 16
+  img_root: ../galaxyzoo/gz2/images_well-sampled_balanced_shuffled+dustlane
+  caption_file: ../galaxyzoo/gz2/tags_well-sampled_balanced_shuffled+dustlane
+  target_area: 424*424
