@@ -9,5 +9,5 @@ pip install -r requirements.txt
 ```
 
 ```
-git clone
+git clone https://github.com/chenruiRae/GalaxySD.git
 ```
