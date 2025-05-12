@@ -50,5 +50,5 @@ for prompt_pair in "${prompt_dict[@]}"; do
     eval "$command"
 done
 
-# optional: create a summary of the generated images by different prompts
-python create_summary.py -output_dir "output/${name}" -model_steps ${model_steps}
+# # optional: create a summary of the generated images by different prompts
+# python create_summary.py -output_dir "output/${name}" -model_steps ${model_steps}
