@@ -12,7 +12,7 @@ conda create -n galaxysd
 conda activate galaxysd
 pip install -r requirements.txt
 ```
-Now you have set up the workspace and could fine-tune a GalaxySD model.
+Now you have set up the workspace and could fine-tune a GalaxySD model. The fine-tuning tool we used is [HCP-Diffusion](https://github.com/IrisRainbowNeko/HCP-Diffusion).
 
 ### Customize configurations
 
@@ -46,4 +46,3 @@ Fill model name and steps and give prompts in `infer_script_full.sh`.
 bash ./infer_script_full.sh
 ```
 If you wanna view a summary of generation, uncomment the last line of `infer_script_full.sh` and keep the prompts in `create_summary.py` consistent with those in inference script.
-
