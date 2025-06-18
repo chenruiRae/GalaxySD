@@ -1,4 +1,4 @@
-# GalaxySD
+# 🌌 GalaxySD
 We fine-tuned sd-1.5 specialized for galaxy image generation by galaxy images with annoted morphological description based on [GZ2](https://arxiv.org/abs/1308.3496v2). The galaxy morphological description dataset in natural language insteal of vote fractions will release soon. 
 
 Our project [HOMEPAGE](https://galaxysd-webpage.streamlit.app/).
