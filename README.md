@@ -3,13 +3,13 @@ We fine-tuned sd-1.5 specialized for galaxy image generation by galaxy images wi
 
 Our project [HOMEPAGE](https://galaxysd-webpage.streamlit.app/).
 
-### Arcitecture
+### 🧠 Arcitecture
 
 Schematic diagram of our model and downstream tasks in our paper.
 
 ![schema](schema.png)
 
-### Git and create environment
+### 🛠️ Git and create environment
 
 ```
 git clone https://github.com/chenruiRae/GalaxySD.git
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ```
 Now you have set up the workspace and could fine-tune a GalaxySD model. 
 
-### Customize configurations
+### ⚙️ Customize configurations
 
 For example, full fine-tuning training configurations are in `GalaxySD/cfgs/train/examples/fine-tuning_galaxy.yaml`. You could customize it before using. The parameters that must be modified to ensure the pipeline run well and corresponding descriptions in `fine-tuning_galaxy.yaml` are in the following table. The fine-tuning tool we used is [HCP-Diffusion](https://github.com/IrisRainbowNeko/HCP-Diffusion).
 
@@ -43,7 +43,7 @@ Before inference, you must modify the inference configurations in `GalaxySD/cfgs
 | `pretrained_model` | Pretrained model name in hugging-face / downloaded local path                | `stable-diffusion-v1-5/stable-diffusion-v1-5` |
 | `condition`    | Control the generation                              | `type: i2i`<br>`image: 'galaxy_cond.jpg'`            |
 
-### Get started
+### 🚀 Get started
 
 #### Training
 ```
