@@ -57,7 +57,6 @@ bash ./infer_script_full.sh
 If you wanna view a summary of generation, uncomment the last line of `infer_script_full.sh` and keep the prompts in `create_summary.py` consistent with those in inference script.
 
 ### 📄 Citation
-
 ```
 @misc{ma2025aidreamunseengalaxies,
       title={Can AI Dream of Unseen Galaxies? Conditional Diffusion Model for Galaxy Morphology Augmentation}, 
