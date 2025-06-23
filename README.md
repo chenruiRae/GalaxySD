@@ -56,12 +56,14 @@ bash ./infer_script_full.sh
 ```
 If you wanna view a summary of generation, uncomment the last line of `infer_script_full.sh` and keep the prompts in `create_summary.py` consistent with those in inference script.
 
+
 ### 🔗 Project Resources
 - 🏠 [Homepage](https://galaxysd-webpage.streamlit.app/)
 - 🤗 [GalaxySD Model Weights](https://huggingface.co/CosmosDream/GalaxySD)
 - 🛠️ [Trained Galaxy Embedding Tool](https://huggingface.co/CosmosDream/GalaxyEmb)
 - 🗂️ [Training Dataset](https://zenodo.org/records/15669465)
 - 📊 [A Contributed Catalog](https://zenodo.org/records/15636756)
+
 
 ### 📄 Citation
 ```
