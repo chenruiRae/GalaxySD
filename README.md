@@ -7,7 +7,7 @@ Our project [HOMEPAGE](https://galaxysd-webpage.streamlit.app/).
 
 Schematic diagram of our model and downstream tasks in our paper.
 
-![schema](schema_v2.pdf)
+![schema](schema_v2.png)
 
 ### 🛠️ Git and create environment
 
