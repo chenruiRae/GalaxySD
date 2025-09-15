@@ -30,8 +30,8 @@ For example, full fine-tuning training configurations are in `GalaxySD/cfgs/trai
 | Training Parameter             | Description                                | Example                   |
 |--------------------|-------------------------------------|--------------------------|
 | `pretrained_model_name_or_path` | Pretrained model name in hugging-face / downloaded local path                | `stable-diffusion-v1-5/stable-diffusion-v1-5` |
-| `img_root`    | image path                              | a folder of `.jpg` files.                 |
-| `caption_file`       | caption path                        | a folder of `.txt` files whose filenames are same as corresponding images.             |
+| `img_root`    | Image path                              | a folder of `.jpg` files                 |
+| `caption_file`       | Caption path                        | a folder of `.txt` files whose filenames are same as corresponding images            |
 | `resume` | Continue the previous training by filling this part or start a new training by set it to null                |                       |
 
 By setting these and the rest parameters in configuration, you could start full fine-tuning.
