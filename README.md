@@ -68,18 +68,17 @@ If you wanna view a summary of generation, uncomment the last line of `infer_scr
 ### 📄 Citation
 ```
 @article{Ma_2026,
-doi = {10.3847/1538-4365/ae1f10},
-url = {https://doi.org/10.3847/1538-4365/ae1f10},
-year = {2026},
-month = {jan},
-publisher = {The American Astronomical Society},
-volume = {282},
-number = {2},
-pages = {25},
-author = {Ma, Chenrui and Sun, Zechang and Jing, Tao and Cai, Zheng and Ting, Yuan-Sen and Huang, Song and Li, Mingyu},
-title = {Can AI Dream of Unseen Galaxies? Conditional Diffusion Model for Galaxy Morphology Augmentation},
-journal = {The Astrophysical Journal Supplement Series},
+         doi = {10.3847/1538-4365/ae1f10},
+         url = {https://doi.org/10.3847/1538-4365/ae1f10},
+         year = {2026},
+         month = {jan},
+         publisher = {The American Astronomical Society},
+         volume = {282},
+         number = {2},
+         pages = {25},
+         author = {Ma, Chenrui and Sun, Zechang and Jing, Tao and Cai, Zheng and Ting, Yuan-Sen and Huang, Song and Li, Mingyu},
+         title = {Can AI Dream of Unseen Galaxies? Conditional Diffusion Model for Galaxy Morphology Augmentation},
+         journal = {The Astrophysical Journal Supplement Series},
 }
-
 ```
 
